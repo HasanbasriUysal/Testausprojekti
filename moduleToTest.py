@@ -9,36 +9,54 @@ words = ['pizza', 'keiju', 'kieli', 'paita', 'sorsa', 'kirje']
 secret_word = random.choice(words) 
 # print(secret_word) 
 
-clue = list('?????') 
+clue = list('?????')
 
 heart_symbol = u'♥'  
 guessed_word_correctly = False 
 
 def update_clue(guessed_letter, secret_word, clue): 
+    """Updates the clue pattern according to the guess
+
+    Args:
+        guessed_letter (str): letter or word
+        secret_word (str): word to check against
+        clue (list): letter pattern (list of chr)
+
+    Returns:
+        list: update clue pattern
+    """
     index = 0 
     while index < len(secret_word): 
         if guessed_letter == secret_word[index]: 
+
             clue[index] = guessed_letter 
         index = index + 1 
+    update_clue = clue
+    return update_clue
 
-while lives > 0: 
-    print(clue) 
-    print('Henkiä jäljellä: ' + heart_symbol * lives) 
-    guess = input('Arvaa kirjain tai koko sana: ') 
+# Prevent this module to be run by other modules eg.tests
+if __name__ == "__main__":
     
-    if guess in secret_word: 
-        update_clue(guess, secret_word, clue) 
 
-    else: 
-        print('Väärin. Menetit yhden hengen.') 
-        lives = lives - 1 
-        if lives == 0: 
-            print('Hävisit! Salainen sana oli ' + secret_word) 
+    while lives > 0: 
 
-    if guess == secret_word: 
-        guessed_word_correctly = True 
-        #print(guessed word correctly) 
+        print(clue) 
+        print('Henkiä jäljellä: ' + heart_symbol * lives) 
+        guess = input('Arvaa kirjain tai koko sana: ') 
+        
+        if guess in secret_word: 
+            update_clue(guess, secret_word, clue) 
 
-        if guessed_word_correctly: 
-            print('Voitit! Salainen sana oli ' + secret_word) 
-            break 
+        else: 
+            print('Väärin. Menetit yhden hengen.') 
+            lives = lives - 1 
+            if lives == 0: 
+                print('Hävisit! Salainen sana oli ' + secret_word) 
+
+        if guess == secret_word: 
+            guessed_word_correctly = True 
+            #print(guessed word correctly) 
+
+            if guessed_word_correctly: 
+                print('Voitit! Salainen sana oli ' + secret_word) 
+                break 
